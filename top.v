@@ -5,24 +5,62 @@ module top(
    output [3:0] vgaGreen,
    output [3:0] vgaBlue,
    output hsync,
-   output vsync
+   output vsync,
+   inout PS2_CLK,
+   inout PS2_DATA
     );
+   // TODO: Wire to Test
+   wire new_ball;
+   wire [9:0] ballX, ballY;
+   wire enable_ball;
+   assign new_ball = MOUSE_MIDDLE;
+   //
 
+   wire clk_25MHz;
+   wire valid;
+   wire [9:0] h_cnt; //640
+   wire [9:0] v_cnt;  //480
 
-    wire clk_25MHz;
-    wire valid;
-    wire [9:0] h_cnt; //640
-    wire [9:0] v_cnt;  //480
-
+   wire enable_mouse_display;
+   wire [9 : 0] MOUSE_X_POS , MOUSE_Y_POS;
+   wire MOUSE_LEFT , MOUSE_MIDDLE , MOUSE_RIGHT , MOUSE_NEW_EVENT;
+   wire [3 : 0] mouse_cursor_red , mouse_cursor_green , mouse_cursor_blue;
+    
+   wire [11:0] mouse_pixel = {mouse_cursor_red, mouse_cursor_green, mouse_cursor_blue};
 
      clock_divisor clk_wiz_0_inst(
       .clk(clk),
       .dclk(clk_25MHz)
     );
 
-   pixel_gen pixel_gen_inst(
+   //TODO: Module to Test --> PASS
+   ball_gen ball_gen_inst(
+      .clk(clk),
+      .rst(rst),
+      .new_ball(new_ball),
+      .ballX(ballX),
+      .ballY(ballY)
+   );
+
+   ball_display ball_dis_inst(
+      .clk(clk_25MHz),
+      .h_cnt(h_cnt),
+      .v_cnt(v_cnt),
+      .ballX(ballX),
+      .ballY(ballY),
+      .enable_ball(enable_ball)
+   );
+   // END TODO
+    //New pixel Gen with mouse inputs
+    pixel_gen pixel_gen_inst(
        .h_cnt(h_cnt),
+       .MOUSE_X_POS(MOUSE_X_POS),
        .valid(valid),
+       .enable_mouse_display(enable_mouse_display),
+       .enable_ball(enable_ball),
+       .mouse_pixel(mouse_pixel),
+       .MOUSE_LEFT(MOUSE_LEFT),
+       .MOUSE_RIGHT(MOUSE_RIGHT),
        .vgaRed(vgaRed),
        .vgaGreen(vgaGreen),
        .vgaBlue(vgaBlue)
@@ -37,5 +75,22 @@ module top(
       .h_cnt(h_cnt),
       .v_cnt(v_cnt)
     );
-      
+   
+   mouse mouse_ctrl_inst( //control mouse.
+        .clk(clk),
+        .h_cntr_reg(h_cnt),
+        .v_cntr_reg(v_cnt),
+        .enable_mouse_display(enable_mouse_display),
+        .MOUSE_X_POS(MOUSE_X_POS),
+        .MOUSE_Y_POS(MOUSE_Y_POS),
+        .MOUSE_LEFT(MOUSE_LEFT),
+        .MOUSE_MIDDLE(MOUSE_MIDDLE),
+        .MOUSE_RIGHT(MOUSE_RIGHT),
+        .MOUSE_NEW_EVENT(MOUSE_NEW_EVENT),
+        .mouse_cursor_red(mouse_cursor_red),
+        .mouse_cursor_green(mouse_cursor_green),
+        .mouse_cursor_blue(mouse_cursor_blue),
+        .PS2_CLK(PS2_CLK),
+        .PS2_DATA(PS2_DATA)
+    );
 endmodule

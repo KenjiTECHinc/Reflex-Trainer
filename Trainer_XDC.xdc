@@ -300,3 +300,8 @@ set_property BITSTREAM.CONFIG.CONFIGRATE 33 [current_design]
 
 set_property CONFIG_VOLTAGE 3.3 [current_design]
 set_property CFGBVS VCCO [current_design]
+
+set_property IOSTANDARD LVCMOS33 [get_ports PS2_CLK]
+set_property IOSTANDARD LVCMOS33 [get_ports PS2_DATA]
+set_property PACKAGE_PIN C17 [get_ports PS2_CLK]
+set_property PACKAGE_PIN B17 [get_ports PS2_DATA]
