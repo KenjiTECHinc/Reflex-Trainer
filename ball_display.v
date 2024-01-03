@@ -11,8 +11,8 @@ output enable_ball;
 reg in_ballX, in_ballY;
 
 always @(posedge clk) begin
-    in_ballX <= (h_cnt > ballX && h_cnt < (ballX + 10'd48));
-    in_ballY <= (v_cnt > ballY && v_cnt < (ballY + 10'd48));
+    in_ballX <= (h_cnt > ballX && h_cnt < (ballX + 10'd40));
+    in_ballY <= (v_cnt > ballY && v_cnt < (ballY + 10'd40));
 end
 assign enable_ball = (in_ballX && in_ballY);
 endmodule

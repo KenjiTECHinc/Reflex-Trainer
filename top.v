@@ -10,13 +10,14 @@ module top(
    inout PS2_DATA
     );
    // TODO: Wire to Test
-   wire new_ball;
+   wire new_ball; 
+   wire on_ball;
    wire [9:0] ballX, ballY;
    wire enable_ball;
-   assign new_ball = MOUSE_MIDDLE;
+   //assign new_ball = MOUSE_MIDDLE;
    //
 
-   wire clk_25MHz;
+   wire clk_25mHz;
    wire valid;
    wire [9:0] h_cnt; //640
    wire [9:0] v_cnt;  //480
@@ -28,12 +29,11 @@ module top(
     
    wire [11:0] mouse_pixel = {mouse_cursor_red, mouse_cursor_green, mouse_cursor_blue};
 
-     clock_divisor clk_wiz_0_inst(
+     clock_divisor_25mHz clk_wiz_0_inst(
       .clk(clk),
-      .dclk(clk_25MHz)
+      .dclk(clk_25mHz)
     );
 
-   //TODO: Module to Test --> PASS
    ball_gen ball_gen_inst(
       .clk(clk),
       .rst(rst),
@@ -43,18 +43,30 @@ module top(
    );
 
    ball_display ball_dis_inst(
-      .clk(clk_25MHz),
+      .clk(clk_25mHz),
       .h_cnt(h_cnt),
       .v_cnt(v_cnt),
       .ballX(ballX),
       .ballY(ballY),
       .enable_ball(enable_ball)
    );
-   // END TODO
+   //TOOD: Module to Test --> Pass
+   mouse_on_ball mouse_on_ball_inst(
+      .BALL_X(ballX),
+      .BALL_Y(ballY),
+      .MOUSE_X_POS(MOUSE_X_POS),
+      .MOUSE_Y_POS(MOUSE_Y_POS),
+      .MOUSE_LEFT(MOUSE_LEFT),
+      .MOUSE_MIDDLE(MOUSE_MIDDLE),
+      .new_ball(new_ball)
+   );
+   //END TODO
     //New pixel Gen with mouse inputs
     pixel_gen pixel_gen_inst(
        .h_cnt(h_cnt),
        .MOUSE_X_POS(MOUSE_X_POS),
+       .MOUSE_Y_POS(MOUSE_Y_POS),
+       .on_ball(on_ball),
        .valid(valid),
        .enable_mouse_display(enable_mouse_display),
        .enable_ball(enable_ball),
@@ -67,7 +79,7 @@ module top(
     );
 
     vga_controller   vga_inst(
-      .pclk(clk_25MHz),
+      .pclk(clk_25mHz),
       .reset(rst),
       .hsync(hsync),
       .vsync(vsync),

@@ -1,7 +1,7 @@
 module ball_gen(clk, rst, new_ball, ballX, ballY);
 ///////////////////////////////////////////
 // module: generate ball target position
-// note: screen size 800 x 525, ball size: 48 x 48.
+// note: screen size 800 x 525, ball size: 40 x 40.
 ///////////////////////////////////////////
 input clk, rst;
 input new_ball;
@@ -50,8 +50,8 @@ always @(posedge clk) begin
 end
 
 always @(posedge clk) begin
-    if(point_x >= 18'd59) begin
-        rand_x <= 10'd580;
+    if(point_x >= 18'd60) begin
+        rand_x <= 10'd590;
     end
     else if(point_x < 18'd1) begin
         rand_x <= 10'd10;
@@ -62,8 +62,8 @@ always @(posedge clk) begin
 end
 
 always @(posedge clk) begin
-    if(point_y >= 18'd43) begin
-        rand_y <= 10'd420;
+    if(point_y >= 18'd44) begin
+        rand_y <= 10'd430;
     end
     else if(point_y < 18'd1) begin
         rand_y <= 10'd10;
