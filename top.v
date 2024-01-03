@@ -4,6 +4,8 @@ module top(
    output [3:0] vgaRed,
    output [3:0] vgaGreen,
    output [3:0] vgaBlue,
+   output [6:0] LED,
+   output [3:0] Anode,
    output hsync,
    output vsync,
    inout PS2_CLK,
@@ -16,7 +18,7 @@ module top(
    wire game_clk;
    wire start;
    wire [4:0] elasped_time;
-   //assign new_ball = MOUSE_MIDDLE;
+   wire [6:0] game_score;
    //
 
    wire clk_25mHz;
@@ -37,16 +39,36 @@ module top(
     );
 
     //TODO: Timer test
+   /*
    clock_divisor_game clk_game_inst(
       .clk(clk),
       .start(start),
       .dclk(game_clk),
       .elasped_time(elasped_time)
+   );*/
+   seven_segment seven_inst(
+      .clk(clk),
+      .rst(rst),
+      .elasped_time(elasped_time),
+      .score(game_score),
+      .Anode(Anode),
+      .LED(LED)
    );
+
    game_start game_start_inst(
+      .clk(clk),
       .trigger(MOUSE_RIGHT),
+      .rst(rst),
       .elasped_time(elasped_time),
       .start(start)
+   );
+
+   game_score game_score_inst(
+      .clk(clk),
+      .rst(rst),
+      .trigger(new_ball),
+      .start(start),
+      .score(game_score)
    );
    // END TODO
    ball_gen ball_gen_inst(
@@ -63,9 +85,10 @@ module top(
       .v_cnt(v_cnt),
       .ballX(ballX),
       .ballY(ballY),
+      .start(start),
       .enable_ball(enable_ball)
    );
-   //TOOD: Module to Test --> Pass
+
    mouse_on_ball mouse_on_ball_inst(
       .BALL_X(ballX),
       .BALL_Y(ballY),
@@ -76,7 +99,7 @@ module top(
       .start(start),
       .new_ball(new_ball)
    );
-   //END TODO
+
     //New pixel Gen with mouse inputs
     pixel_gen pixel_gen_inst(
        .h_cnt(h_cnt),
