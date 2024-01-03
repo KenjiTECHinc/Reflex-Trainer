@@ -7,7 +7,7 @@ input [9:0] BALL_X, BALL_Y, MOUSE_X_POS, MOUSE_Y_POS;
 input MOUSE_LEFT, MOUSE_MIDDLE, start;
 output new_ball;
 
-wire inX, inY;
+wire inX, inY, on_ball;
 
 assign inX = (MOUSE_X_POS >= BALL_X) && (MOUSE_X_POS < (BALL_X + 10'd40));
 assign inY = (MOUSE_Y_POS >= BALL_Y) && (MOUSE_Y_POS < (BALL_Y + 10'd40));

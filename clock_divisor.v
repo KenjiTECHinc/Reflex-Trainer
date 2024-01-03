@@ -28,25 +28,26 @@ endmodule
 //      - elasped_time: total played time.
 // Note: clock signaled every 1 game second.
 ////////////////////////////////////////////
+/*
 module clock_divisor_game(clk, start, dclk, elasped_time);
 input clk, start;
 output reg dclk;
 output reg [4:0] elasped_time;
-reg [28-1:0] counter;
+reg [28-1:0] game_counter;
 
 //timer counts on start signal.
 always @(posedge clk) begin
   if(start) begin
-    counter <= counter + 28'd1;
-    if(counter >= 28'd99999999) begin
-      counter <= 28'd0;
+    game_counter <= game_counter + 28'd1;
+    if(game_counter >= 28'd99999999) begin
+      game_counter <= 28'd0;
     end
-    dclk <= (counter === 28'd99999999)? 1'b1: 1'b0;
-    elasped_time <= (counter === 28'd99999999)? elasped_time + 5'b1: elasped_time;
+    dclk <= (game_counter === 28'd99999999)? 1'b1: 1'b0;
+    elasped_time <= (game_counter >= 28'd99999999)? elasped_time + 5'b1: elasped_time;
   end
-  else begin
-    counter <= 28'd0;
+  else begin //start is '0'
+    game_counter <= 28'd0;
     elasped_time <= 5'b0;
   end
 end
-endmodule
+endmodule*/
