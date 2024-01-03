@@ -10,10 +10,12 @@ module top(
    inout PS2_DATA
     );
    // TODO: Wire to Test
-   wire new_ball; 
-   wire on_ball;
+   wire new_ball, on_ball;
    wire [9:0] ballX, ballY;
    wire enable_ball;
+   wire game_clk;
+   wire start;
+   wire [4:0] elasped_time;
    //assign new_ball = MOUSE_MIDDLE;
    //
 
@@ -23,9 +25,9 @@ module top(
    wire [9:0] v_cnt;  //480
 
    wire enable_mouse_display;
-   wire [9 : 0] MOUSE_X_POS , MOUSE_Y_POS;
+   wire [9:0] MOUSE_X_POS , MOUSE_Y_POS;
    wire MOUSE_LEFT , MOUSE_MIDDLE , MOUSE_RIGHT , MOUSE_NEW_EVENT;
-   wire [3 : 0] mouse_cursor_red , mouse_cursor_green , mouse_cursor_blue;
+   wire [3:0] mouse_cursor_red , mouse_cursor_green , mouse_cursor_blue;
     
    wire [11:0] mouse_pixel = {mouse_cursor_red, mouse_cursor_green, mouse_cursor_blue};
 
@@ -34,6 +36,19 @@ module top(
       .dclk(clk_25mHz)
     );
 
+    //TODO: Timer test
+   clock_divisor_game clk_game_inst(
+      .clk(clk),
+      .start(start),
+      .dclk(game_clk),
+      .elasped_time(elasped_time)
+   );
+   game_start game_start_inst(
+      .trigger(MOUSE_RIGHT),
+      .elasped_time(elasped_time),
+      .start(start)
+   );
+   // END TODO
    ball_gen ball_gen_inst(
       .clk(clk),
       .rst(rst),
@@ -58,6 +73,7 @@ module top(
       .MOUSE_Y_POS(MOUSE_Y_POS),
       .MOUSE_LEFT(MOUSE_LEFT),
       .MOUSE_MIDDLE(MOUSE_MIDDLE),
+      .start(start),
       .new_ball(new_ball)
    );
    //END TODO
