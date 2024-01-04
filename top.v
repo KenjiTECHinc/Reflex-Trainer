@@ -14,11 +14,14 @@ module top(
    // TODO: Wire to Test
    wire new_ball, on_ball;
    wire [9:0] ballX, ballY;
-   wire enable_ball;
-   wire game_clk;
+   wire enable_ball, game_clk, game_state;
    wire start;
+   wire jump_start;
    wire [4:0] elasped_time;
    wire [6:0] game_score;
+   wire mouse_mid_1Pulse;
+   wire mouse_left_1Pulse;
+   wire mouse_right_1Pulse;
    //
 
    wire clk_25mHz;
@@ -46,6 +49,27 @@ module top(
       .dclk(game_clk),
       .elasped_time(elasped_time)
    );*/
+   //////////////////////////////////////
+   // Make stable 1 pulse mouse signals
+   // Used for clickable items like targets
+   Debounce_onePulse DB1(
+      .clk(clk),
+      .pushButton(MOUSE_MIDDLE),
+      .signal(mouse_mid_1Pulse)
+   );
+
+   Debounce_onePulse DB2(
+      .clk(clk),
+      .pushButton(MOUSE_LEFT),
+      .signal(mouse_left_1Pulse)
+   );
+   
+   Debounce_onePulse DB3(
+      .clk(clk),
+      .pushButton(MOUSE_RIGHT),
+      .signal(mouse_right_1Pulse)
+   );
+   //////////////////////////////////////
    seven_segment seven_inst(
       .clk(clk),
       .rst(rst),
@@ -57,24 +81,29 @@ module top(
 
    game_start game_start_inst(
       .clk(clk),
-      .trigger(MOUSE_RIGHT),
+      .trigger(mouse_right_1Pulse),
       .rst(rst),
       .elasped_time(elasped_time),
-      .start(start)
+      .start(start),
+      .jump_start(jump_start),
+      .state(game_state)
    );
 
    game_score game_score_inst(
       .clk(clk),
       .rst(rst),
       .trigger(new_ball),
+      .game_state(game_state),
       .start(start),
       .score(game_score)
    );
+
    // END TODO
    ball_gen ball_gen_inst(
       .clk(clk),
       .rst(rst),
       .new_ball(new_ball),
+      .jump_start(jump_start),
       .ballX(ballX),
       .ballY(ballY)
    );
@@ -94,8 +123,8 @@ module top(
       .BALL_Y(ballY),
       .MOUSE_X_POS(MOUSE_X_POS),
       .MOUSE_Y_POS(MOUSE_Y_POS),
-      .MOUSE_LEFT(MOUSE_LEFT),
-      .MOUSE_MIDDLE(MOUSE_MIDDLE),
+      .MOUSE_LEFT(mouse_left_1Pulse),
+      .MOUSE_MIDDLE(mouse_mid_1Pulse),
       .start(start),
       .new_ball(new_ball)
    );
