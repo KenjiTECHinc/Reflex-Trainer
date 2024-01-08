@@ -19,6 +19,9 @@ assign next_num = num + 1'b1;
 assign dclk = num[1];
 endmodule
 
+
+
+//UNUSED MODULE
 ////////////////////////////////////////////
 // Module name: Clock divisor game
 // I/0:

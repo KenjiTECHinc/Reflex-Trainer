@@ -1,3 +1,8 @@
+///////////////////////////////////////////
+// for displaying score and time on seven segment
+// used during debugging
+// not really used anymore... but is still useful to have
+///////////////////////////////////////////
 module seven_segment (clk, rst, elasped_time, score, Anode, LED);
 input clk, rst;
 input [4:0] elasped_time;
@@ -180,127 +185,127 @@ always @(*) begin
 end
 //score
 always @(*) begin
-    if(score == 7'b00000) begin //00
+    if(score == 7'd0) begin //00
         LED4 = 7'b0000001; 
         LED3 = 7'b0000001;
     end 
-    if(score == 7'b00001) begin
+    if(score == 7'd1) begin
         LED4 = 7'b0000001; //01
         LED3 = 7'b1001111;
     end
-    if(score == 7'b00010) begin
+    if(score == 7'd2) begin
         LED4 = 7'b0000001; //02
         LED3 = 7'b0010010;
     end
-    if(score == 7'b00011) begin //03
+    if(score == 7'd3) begin //03
         LED4 = 7'b0000001; 
         LED3 = 7'b0000110;
         end
-    if(score == 7'b00100) begin //04
+    if(score == 7'd4) begin //04
         LED4 = 7'b0000001; 
         LED3 = 7'b1001100;
     end
-    if(score == 7'b00101) begin //05
+    if(score == 7'd5) begin //05
         LED4 = 7'b0000001; 
         LED3 = 7'b0100100;
     end
-    if(score == 7'b00110) begin //06
+    if(score == 7'd6) begin //06
         LED4 = 7'b0000001; 
         LED3 = 7'b0100000;
     end
-    if(score == 7'b00111) begin //07
+    if(score == 7'd7) begin //07
         LED4 = 7'b0000001; 
         LED3 = 7'b0001111;
     end
-    if(score == 7'b01000) begin //08
+    if(score == 7'd8) begin //08
         LED4 = 7'b0000001; 
         LED3 = 7'b0000000;
     end
-    if(score == 7'b01001) begin //09
+    if(score == 7'd9) begin //09
         LED4 = 7'b0000001;  
         LED3 = 7'b0000100;
     end
-    if(score == 7'b01010) begin //10
+    if(score == 7'd10) begin //10
         LED4 = 7'b1001111; 
         LED3 = 7'b0000001;
     end
-    if(score == 7'b01011) begin //11
+    if(score == 7'd11) begin //11
         LED4 = 7'b1001111; 
         LED3 = 7'b1001111;
     end
-    if(score == 7'b01100) begin //12
+    if(score == 7'd12) begin //12
         LED4 = 7'b1001111; 
         LED3 = 7'b0010010;
     end
-    if(score == 7'b01101) begin //13
+    if(score == 7'd13) begin //13
         LED4 = 7'b1001111; 
         LED3 = 7'b0000110;
     end
-    if(score == 7'b01110) begin //14
+    if(score == 7'd14) begin //14
         LED4 = 7'b1001111; 
         LED3 = 7'b1001100;
     end
-    if(score == 7'b01111) begin //15
+    if(score == 7'd15) begin //15
         LED4 = 7'b1001111; 
         LED3 = 7'b0100100;
     end
-    if(score == 7'b10000) begin //16
+    if(score == 7'd16) begin //16
         LED4 = 7'b1001111;
         LED3 = 7'b0100000;
     end
-    if(score == 7'b10001) begin //17
+    if(score == 7'd17) begin //17
         LED4 = 7'b1001111;
         LED3 = 7'b0001111;
     end
-    if(score == 7'b10010) begin //18
+    if(score == 7'd18) begin //18
         LED4 = 7'b1001111;
         LED3 = 7'b0000000;
     end
-    if(score == 7'b10011) begin //19
+    if(score == 7'd19) begin //19
         LED4 = 7'b1001111;
         LED3 = 7'b0000100;
     end
-    if(score == 7'b10100) begin //20
+    if(score == 7'd20) begin //20
         LED4 = 7'b0010010;
         LED3 = 7'b0000001;
     end
-    if(score == 7'b10101) begin //21
+    if(score == 7'd21) begin //21
         LED4 = 7'b0010010;
         LED3 = 7'b1001111;
     end
-    if(score == 7'b10110) begin //22
+    if(score == 7'd22) begin //22
         LED4 = 7'b0010010;
         LED3 = 7'b0010010;
     end
-    if(score == 7'b10111) begin //23
+    if(score == 7'd23) begin //23
         LED4 = 7'b0010010;
         LED3 = 7'b0000110;
     end
-    if(score == 7'b11000) begin //24
+    if(score == 7'd24) begin //24
         LED4 = 7'b0010010;
         LED3 = 7'b1001100;
     end
-    if(score == 7'b11001) begin //25
+    if(score == 7'd25) begin //25
         LED4 = 7'b0010010;
         LED3 = 7'b0100100;
     end
-    if(score == 7'b11010) begin //26
+    if(score == 7'd26) begin //26
         LED4 = 7'b0010010;
         LED3 = 7'b0100000;
     end
-    if(score == 7'b11011) begin //27
+    if(score == 7'd27) begin //27
         LED4 = 7'b0010010;
         LED3 = 7'b0001111;
     end
-    if(score == 7'b11100) begin //28
+    if(score == 7'd28) begin //28
         LED4 = 7'b0010010;
         LED3 = 7'b0000000;
     end
-    if(score == 7'b11101) begin //29
+    if(score == 7'd29) begin //29
         LED4 = 7'b0010010;
         LED3 = 7'b0000100;
     end
-    if(score == 7'b11110) begin //30
+    if(score == 7'd30) begin //30
         LED4 = 7'b0000110;
         LED3 = 7'b0000001;
     end

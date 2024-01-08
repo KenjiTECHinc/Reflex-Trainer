@@ -11,7 +11,7 @@ wire inX, inY, on_ball;
 
 assign inX = (MOUSE_X_POS >= BALL_X) && (MOUSE_X_POS < (BALL_X + 10'd40));
 assign inY = (MOUSE_Y_POS >= BALL_Y) && (MOUSE_Y_POS < (BALL_Y + 10'd40));
-assign on_ball = inX && inY;
+assign on_ball = inX && inY && MOUSE_LEFT;  //signal that mouse is clicked on the ball
 
-assign new_ball = (MOUSE_MIDDLE)? 1'b1: (MOUSE_LEFT && on_ball && start)? 1'b1: 1'b0;
+assign new_ball = (MOUSE_MIDDLE || (on_ball))? 1'b1: 1'b0; //MOUSE_MIDDLE is for debugging but too lazy to remove.
 endmodule

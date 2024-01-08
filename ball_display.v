@@ -17,3 +17,27 @@ always @(posedge clk) begin
 end
 assign enable_ball = (in_ballX && in_ballY && start);
 endmodule
+
+
+module start_display (clk, h_cnt, v_cnt, start, enable_start, pixel_addr_start);
+///////////////////////////////////////////
+// module: check 'start' button location
+// note: provide pixel address map to module Memory Block Generator
+///////////////////////////////////////////
+input clk;
+input start;
+input [9:0] h_cnt, v_cnt;
+output enable_start;
+output [13:0] pixel_addr_start;
+
+reg in_startX, in_startY;
+
+always @(posedge clk) begin
+    in_startX <= (h_cnt > 10'd220 && h_cnt < 10'd420);
+    in_startY <= (v_cnt > 10'd300 && v_cnt < 10'd370);
+end
+
+assign pixel_addr_start = (v_cnt-300)*200 + (h_cnt-220);
+
+assign enable_start = (in_startX && in_startY);
+endmodule
