@@ -44,8 +44,8 @@ create_clock -period 10.000 -name sys_clk_pin -waveform {0.000 5.000} -add [get_
 
 
 ## LEDs
-#set_property PACKAGE_PIN U16 [get_ports {led[0]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {led[0]}]
+#set_property PACKAGE_PIN U16 [get_ports state_LED]
+#set_property IOSTANDARD LVCMOS33 [get_ports state_LED]
 #set_property PACKAGE_PIN E19 [get_ports {led[1]}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {led[1]}]
 #set_property PACKAGE_PIN U19 [get_ports {led[2]}]
@@ -306,4 +306,4 @@ set_property IOSTANDARD LVCMOS33 [get_ports PS2_DATA]
 set_property PACKAGE_PIN C17 [get_ports PS2_CLK]
 set_property PACKAGE_PIN B17 [get_ports PS2_DATA]
 
-set_property ALLOW_COMBINATORIAL_LOOPS TRUE [get_nets mouse_ctrl_inst/MC1/SR[0]]
+#set_property ALLOW_COMBINATORIAL_LOOPS TRUE [get_nets mouse_ctrl_inst/MC1/SR[0]]
